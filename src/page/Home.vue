@@ -3,6 +3,7 @@
     border: 1px solid #d7dde4;
     background: #f5f7f9;
     position: relative;
+    height: 100%;
     border-radius: 4px;
     overflow: hidden;
   }
@@ -12,7 +13,7 @@
   }
   .layout-logo-left{
     width: 90%;
-    height: 30px;
+    height: 100%;
     background: #5b6270;
     border-radius: 3px;
     margin: 15px auto;
@@ -51,36 +52,48 @@
 </style>
 <template>
   <div class="layout">
-    <Layout>
+    <Layout style="height:100%">
       <Sider ref="side1" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed">
-        <Menu active-name="1-2" theme="dark" width="auto" :class="menuitemClasses">
-          <MenuItem name="1-1">
-            <Icon type="ios-navigate"></Icon>
-            <span>Option 1</span>
-          </MenuItem>
-          <MenuItem name="1-2">
-            <Icon type="search"></Icon>
-            <span>Option 2</span>
-          </MenuItem>
-          <MenuItem name="1-3">
-            <Icon type="settings"></Icon>
-            <span>Option 3</span>
-          </MenuItem>
+        <Menu  theme="dark" width="auto" :active-name="this.$route.path" :open-names="openNames" @on-select="menuSelect" accordion>
+          <div class="layout-logo-left">
+            <!--<Icon type="paper-airplane" :size="logoSize"></Icon>-->
+            <!--<span class="layout-text" style="font-size:25px"></span>-->
+          </div>
+          <template v-for="(item,index) in $router.options.routes" v-if="!item.hidden">
+            <Submenu :name="item.name" v-if="!item.leaf">
+              <template slot="title">
+                <Icon :type="item.iconCls" :size="iconSize"></Icon>
+                <span class="layout-text" >{{item.name}}</span>
+              </template>
+              <template v-for="(child,childIndex) in item.children" v-if="!child.hidden">
+                <Menu-item :name="child.path">{{child.name}}</Menu-item>
+              </template>
+            </Submenu>
+            <template  v-if="item.leaf&&item.children.length>0">
+              <Menu-item :name="item.children[0].path">
+                <Icon :type="item.iconCls" :size="iconSize"></Icon>
+                <span class="layout-text" >{{item.children[0].name}}</span>
+              </Menu-item>
+            </template>
+          </template>
         </Menu>
       </Sider>
       <Layout>
-        <Header :style="{padding: 0}" class="layout-header-bar">
-          <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '20px 20px 0'}" type="navicon-round" size="24"></Icon>
+        <Header :style="{padding: 0,textAlign:'right'}" class="layout-header-bar">
+          <span>企业信用监测系统</span>
+          <!--<Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '20px 20px 0'}" type="navicon-round" size="24"></Icon>-->
         </Header>
         <Content :style="{margin: '20px', background: '#fff', minHeight: '260px'}">
-          Content
+          <router-view/>
         </Content>
       </Layout>
     </Layout>
   </div>
 </template>
 <script>
+
   export default {
+
     data () {
       return {
         isCollapsed: false
@@ -101,6 +114,10 @@
       }
     },
     methods: {
+      menuSelect(name) {
+        console.log(name);
+        this.$router.push({ path: name });
+      },
       collapsedSider () {
         this.$refs.side1.toggleCollapse();
       }

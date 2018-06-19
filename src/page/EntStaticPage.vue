@@ -22,7 +22,7 @@
         </Col>
       </Row>
       <Row>
-        <Alert >更新数量：{{staticInfo.updateAmountStatistics}} 新增数量:{{staticInfo.addAmountStatistics}} 总数：{{staticInfo.totalAmountStatistics}} 更新总价:{{staticInfo.updateTotalPriceStatistics}} 新增总价：{{staticInfo.addTotalPriceStatistics}} 总价：{{staticInfo.totalPriceStatistics}} </Alert>
+        <Alert style="text-align: center">更新数量：{{staticInfo.updateAmountStatistics}} 新增数量:{{staticInfo.addAmountStatistics}} 总数：{{staticInfo.totalAmountStatistics}} 更新总价:{{staticInfo.updateTotalPriceStatistics}} 新增总价：{{staticInfo.addTotalPriceStatistics}} 总价：{{staticInfo.totalPriceStatistics}} </Alert>
       </Row>
     </div>
     <div>
