@@ -12,7 +12,7 @@ import 'iview/dist/styles/iview.css'
 Vue.config.productionTip = false
 
 Vue.use(VueRouter)
-Vue.use(Vuex)
+// Vue.use(Vuex)
 Vue.use(iView)
 
 const router = routes
